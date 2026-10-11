@@ -1,0 +1,14 @@
+{
+  "best_params": {
+    "ngram_range": [
+      1,
+      6
+    ],
+    "analyzer": "char",
+    "min_df": 1,
+    "C": 1.0,
+    "class_weight": "balanced"
+  },
+  "val_macro_f1": 0.6693388876662397,
+  "seconds": 31489.880646944046
+}

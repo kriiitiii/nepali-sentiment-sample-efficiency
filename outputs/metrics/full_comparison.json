@@ -1,0 +1,311 @@
+{
+  "models": {
+    "majority": {
+      "n": 6684,
+      "macro_f1": 0.20628852842924547,
+      "accuracy": 0.44808497905445843,
+      "per_class": {
+        "negative": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 2717
+        },
+        "neutral": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 972
+        },
+        "positive": {
+          "precision": 0.44808497905445843,
+          "recall": 1.0,
+          "f1": 0.6188655852877364,
+          "support": 2995
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "negative",
+          "neutral",
+          "positive"
+        ],
+        "matrix": [
+          [
+            0,
+            0,
+            2717
+          ],
+          [
+            0,
+            0,
+            972
+          ],
+          [
+            0,
+            0,
+            2995
+          ]
+        ]
+      },
+      "macro_f1_ci": [
+        0.20254834565843835,
+        0.20982961722897195
+      ],
+      "val_macro_f1": 0.20633608815426996,
+      "meta": {}
+    },
+    "char_lr": {
+      "n": 6684,
+      "macro_f1": 0.6565021432611639,
+      "accuracy": 0.706163973668462,
+      "per_class": {
+        "negative": {
+          "precision": 0.7794059405940594,
+          "recall": 0.7243283032756717,
+          "f1": 0.7508584509729112,
+          "support": 2717
+        },
+        "neutral": {
+          "precision": 0.42844827586206896,
+          "recall": 0.5113168724279835,
+          "f1": 0.46622889305816134,
+          "support": 972
+        },
+        "positive": {
+          "precision": 0.7519173057685895,
+          "recall": 0.7529215358931552,
+          "f1": 0.7524190857524191,
+          "support": 2995
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "negative",
+          "neutral",
+          "positive"
+        ],
+        "matrix": [
+          [
+            1968,
+            295,
+            454
+          ],
+          [
+            185,
+            497,
+            290
+          ],
+          [
+            372,
+            368,
+            2255
+          ]
+        ]
+      },
+      "macro_f1_ci": [
+        0.6442748934973455,
+        0.6689724371320791
+      ],
+      "val_macro_f1": 0.6693388876662397,
+      "meta": {
+        "params": {
+          "ngram_range": [
+            1,
+            6
+          ],
+          "analyzer": "char",
+          "min_df": 1,
+          "C": 1.0,
+          "class_weight": "balanced"
+        }
+      }
+    },
+    "xlmr": {
+      "n": 6684,
+      "macro_f1": 0.6755900236529503,
+      "accuracy": 0.7562836624775583,
+      "per_class": {
+        "negative": {
+          "precision": 0.7899964526427812,
+          "recall": 0.819654030180346,
+          "f1": 0.8045520231213873,
+          "support": 2717
+        },
+        "neutral": {
+          "precision": 0.5172932330827068,
+          "recall": 0.35390946502057613,
+          "f1": 0.4202810018326206,
+          "support": 972
+        },
+        "positive": {
+          "precision": 0.77625,
+          "recall": 0.8293823038397329,
+          "f1": 0.8019370460048426,
+          "support": 2995
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "negative",
+          "neutral",
+          "positive"
+        ],
+        "matrix": [
+          [
+            2227,
+            148,
+            342
+          ],
+          [
+            254,
+            344,
+            374
+          ],
+          [
+            338,
+            173,
+            2484
+          ]
+        ]
+      },
+      "macro_f1_ci": [
+        0.6627145518484838,
+        0.688023421904446
+      ],
+      "val_macro_f1": 0.7122041796786501,
+      "meta": {
+        "model": "FacebookAI/xlm-roberta-base",
+        "revision": "e73636d4f797dec63c3081bb6ed5c7b0bb3f2089",
+        "seed": 23385,
+        "lr": 3e-05,
+        "batch_size": 32,
+        "max_length": 128,
+        "max_steps": 2924,
+        "eval_steps": 292,
+        "best_step": 2628,
+        "steps_run": 2924,
+        "patience": 3,
+        "torch": "2.6.0+cu124",
+        "transformers": "5.19.0",
+        "python": "3.12.10",
+        "device": "NVIDIA GeForce RTX 4070 Laptop GPU"
+      }
+    },
+    "nepberta": {
+      "n": 6684,
+      "macro_f1": 0.6838671388028165,
+      "accuracy": 0.7392280071813285,
+      "per_class": {
+        "negative": {
+          "precision": 0.7910502958579881,
+          "recall": 0.7872653662127347,
+          "f1": 0.789153292750415,
+          "support": 2717
+        },
+        "neutral": {
+          "precision": 0.45743685687558466,
+          "recall": 0.5030864197530864,
+          "f1": 0.4791768740813327,
+          "support": 972
+        },
+        "positive": {
+          "precision": 0.7945723119203023,
+          "recall": 0.7722871452420701,
+          "f1": 0.7832712495767017,
+          "support": 2995
+        }
+      },
+      "confusion_matrix": {
+        "labels": [
+          "negative",
+          "neutral",
+          "positive"
+        ],
+        "matrix": [
+          [
+            2139,
+            257,
+            321
+          ],
+          [
+            206,
+            489,
+            277
+          ],
+          [
+            359,
+            323,
+            2313
+          ]
+        ]
+      },
+      "macro_f1_ci": [
+        0.6716582990384614,
+        0.6955171742239666
+      ],
+      "val_macro_f1": 0.7110229536351461,
+      "meta": {
+        "model": "models_local/nepberta-pt",
+        "revision": null,
+        "seed": 23385,
+        "lr": 3e-05,
+        "batch_size": 32,
+        "max_length": 128,
+        "max_steps": 2924,
+        "eval_steps": 292,
+        "best_step": 2044,
+        "steps_run": 2920,
+        "patience": 3,
+        "torch": "2.6.0+cu124",
+        "transformers": "5.19.0",
+        "python": "3.12.10",
+        "device": "NVIDIA GeForce RTX 4070 Laptop GPU"
+      }
+    }
+  },
+  "tests": {
+    "char_lr_vs_xlmr": {
+      "paired_bootstrap_macro_f1": {
+        "diff": -0.019087880391786438,
+        "ci_low": -0.03290611525319529,
+        "ci_high": -0.005022820179634186,
+        "p_value": 0.005497251374312844
+      },
+      "mcnemar_exact_accuracy": {
+        "a_only_correct": 536,
+        "b_only_correct": 871,
+        "p_value": 3.6712722760740936e-19
+      },
+      "p_holm": 0.010994502748625687
+    },
+    "char_lr_vs_nepberta": {
+      "paired_bootstrap_macro_f1": {
+        "diff": -0.027364995541652615,
+        "ci_low": -0.040560366447300905,
+        "ci_high": -0.01421632168355867,
+        "p_value": 0.0004997501249375312
+      },
+      "mcnemar_exact_accuracy": {
+        "a_only_correct": 594,
+        "b_only_correct": 815,
+        "p_value": 4.290067648637552e-09
+      },
+      "p_holm": 0.0014992503748125937
+    },
+    "xlmr_vs_nepberta": {
+      "paired_bootstrap_macro_f1": {
+        "diff": -0.008277115149866177,
+        "ci_low": -0.021416058408318873,
+        "ci_high": 0.004250109565519736,
+        "p_value": 0.19940029985007496
+      },
+      "mcnemar_exact_accuracy": {
+        "a_only_correct": 557,
+        "b_only_correct": 443,
+        "p_value": 0.00034770037646790003
+      },
+      "p_holm": 0.19940029985007496
+    }
+  }
+}

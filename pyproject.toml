@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nepsent"
+version = "0.1.0"
+description = "Sentiment classification experiments for code-mixed Nepali-English consumer text"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = [
+    "numpy>=2.0",
+    "pandas>=2.2",
+    "scikit-learn>=1.5",
+    "scipy>=1.13",
+    "pyyaml>=6.0",
+    "matplotlib>=3.9",
+]
+
+[project.optional-dependencies]
+transformers = ["torch>=2.3", "transformers>=4.44", "datasets>=2.20", "accelerate>=0.33"]
+dev = ["pytest>=8"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

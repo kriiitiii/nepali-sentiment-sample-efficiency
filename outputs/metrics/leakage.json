@@ -1,0 +1,17 @@
+{
+  "char_lr_grouped": {
+    "macro_f1": 0.6565021432611639,
+    "ci": [
+      0.6442748934973455,
+      0.6689724371320791
+    ]
+  },
+  "char_lr_random": {
+    "macro_f1": 0.6727473838430109,
+    "ci": [
+      0.6606670360397434,
+      0.685395217226968
+    ]
+  },
+  "note": "different test sets; intervals are not a paired comparison"
+}

@@ -1,0 +1,23 @@
+Majority class (rows true, columns predicted: negative, neutral, positive)
+
+        0     0  2717
+        0     0   972
+        0     0  2995
+
+Char n-gram LR (rows true, columns predicted: negative, neutral, positive)
+
+     1968   295   454
+      185   497   290
+      372   368  2255
+
+XLM-R base (rows true, columns predicted: negative, neutral, positive)
+
+     2227   148   342
+      254   344   374
+      338   173  2484
+
+NepBERTa (rows true, columns predicted: negative, neutral, positive)
+
+     2139   257   321
+      206   489   277
+      359   323  2313

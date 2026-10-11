@@ -1,0 +1,51 @@
+{
+  "raw_sha256": "59771e657321f365420c9c67db0670201e2fc2e1efa00baecf432340c2cdb993",
+  "rows_wellformed": 33435,
+  "rows_malformed_dropped": 39,
+  "empty_text_dropped": 0,
+  "exact_dup_rows_conflicting_dropped": 16,
+  "exact_dup_rows_collapsed": 8,
+  "near_dup_threshold": 0.85,
+  "near_dup_groups_multi": 2047,
+  "rows_in_multi_groups": 5899,
+  "near_dup_groups_label_conflict": 271,
+  "final_rows": 33411,
+  "label_counts": {
+    "positive": 14973,
+    "negative": 13582,
+    "neutral": 4856
+  },
+  "split_counts": {
+    "test": {
+      "positive": 2995,
+      "negative": 2717,
+      "neutral": 972
+    },
+    "train": {
+      "positive": 10480,
+      "negative": 9507,
+      "neutral": 3398
+    },
+    "validation": {
+      "positive": 1498,
+      "negative": 1358,
+      "neutral": 486
+    }
+  },
+  "words_per_text": {
+    "count": 33411.0,
+    "mean": 18.68,
+    "std": 11.16,
+    "min": 1.0,
+    "25%": 9.0,
+    "50%": 16.0,
+    "75%": 27.0,
+    "max": 61.0
+  },
+  "date_range": [
+    "2020-02-11 15:22:16+00:00",
+    "2021-01-10 22:06:41+00:00"
+  ],
+  "contains_latin": 0,
+  "test_ids_sha256": "c3fd1a65b11543972f431fd3c070d0a1e24b1f3cde2e04d618bd7668b6ca7645"
+}

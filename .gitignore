@@ -1,0 +1,22 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.env
+*.env
+.ipynb_checkpoints/
+
+# Restricted data: never committed
+data/raw/*
+data/interim/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+
+# Model checkpoints and run directories
+runs/
+checkpoints/
+outputs/models/
+
+# Locally converted model weights
+models_local/

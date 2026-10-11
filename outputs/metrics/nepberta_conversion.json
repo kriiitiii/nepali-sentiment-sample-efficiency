@@ -1,0 +1,19 @@
+{
+  "source": "NepBERTa/NepBERTa",
+  "revision": "1b8293fd5ed883081619e9895540c58eb740e7d0",
+  "converter": "transformers 4.44.2 from_tf=True",
+  "parity_checks": [
+    {
+      "max_abs_diff": 2.002716064453125e-05,
+      "argmax_agree": 1.0
+    },
+    {
+      "max_abs_diff": 1.874566078186035e-05,
+      "argmax_agree": 1.0
+    },
+    {
+      "max_abs_diff": 2.002716064453125e-05,
+      "argmax_agree": 1.0
+    }
+  ]
+}

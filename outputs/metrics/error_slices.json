@@ -1,0 +1,39 @@
+{
+  "by_length_words": {
+    "1-8": {
+      "n": 1539,
+      "model": 0.7554795841260974,
+      "baseline": 0.7211969839787722
+    },
+    "9-16": {
+      "n": 1975,
+      "model": 0.686632332877246,
+      "baseline": 0.6751526923540506
+    },
+    "17-27": {
+      "n": 1625,
+      "model": 0.6326104219797899,
+      "baseline": 0.6094500425209087
+    },
+    "28+": {
+      "n": 1545,
+      "model": 0.5947204765613788,
+      "baseline": 0.5809548114204918
+    }
+  },
+  "overlap": {
+    "both_wrong": 1093,
+    "model_only_wrong": 536,
+    "baseline_only_wrong": 871,
+    "both_right": 4184,
+    "both_wrong_same_label": 866
+  },
+  "model_error_confusions": {
+    "negative->neutral": 148,
+    "negative->positive": 342,
+    "neutral->negative": 254,
+    "neutral->positive": 374,
+    "positive->negative": 338,
+    "positive->neutral": 173
+  }
+}
