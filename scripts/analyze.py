@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 
 import matplotlib
+import matplotlib.ticker
 import numpy as np
 import pandas as pd
 import yaml
@@ -26,7 +27,8 @@ from nepsent.eval.metrics import bootstrap_ci, fast_macro_f1, holm, macro_f1, mc
 
 M, T, F = Path("outputs/metrics"), Path("outputs/tables"), Path("outputs/figures")
 PRED = Path("outputs/predictions")
-NAMES = {"majority": "Majority class", "char_lr": "Char n-gram LR", "xlmr": "XLM-R base", "nepberta": "NepBERTa"}
+NAMES = {"majority": "Majority class", "char_lr": "Character n-gram logistic regression", "xlmr": "XLM-R",
+         "nepberta": "NepBERTa"}
 COLORS = {"char_lr": "#2a78d6", "xlmr": "#eb6834", "nepberta": "#1baf7a"}
 MARKERS = {"char_lr": "o", "xlmr": "s", "nepberta": "^"}
 
@@ -122,10 +124,13 @@ def main():
     lc = pd.DataFrame(rows).sort_values(["model", "n_train"])
     (M / "learning_curve.json").write_text(lc.to_json(orient="records", indent=2))
     lc.to_csv(T / "learning_curve.csv", index=False)
+    rank = {"char_lr": 0, "xlmr": 1, "nepberta": 2}
     show = lc[lc.model.isin([m for m in models if m != "majority"])].copy()
+    show = show.sort_values(["model", "n_train"], key=lambda c: c.map(rank) if c.name == "model" else c)
     show["model"] = show.model.map(NAMES)
     for c in ("mean_macro_f1", "median_macro_f1", "sd_across_repeats", "min", "max", "test_boot_ci_low", "test_boot_ci_high"):
         show[c] = show[c].map(lambda v: f"{v:.3f}")
+    show["n_train"] = show["n_train"].map(lambda n: f"{n:,}")
     show = show.drop(columns="size").rename(columns={
         "model": "Model", "n_train": "Train size", "repeats": "Repeats", "mean_macro_f1": "Mean", "median_macro_f1": "Median",
         "sd_across_repeats": "SD", "min": "Min", "max": "Max", "test_boot_ci_low": "CI low", "test_boot_ci_high": "CI high"})
@@ -176,16 +181,17 @@ def main():
             paired[model + bkey + suffix] = {"comparison": f"{model} minus {base}{suffix}", "rows": rows, "crossover_n_train": cross,
                              "definition": "smallest n with 95% CI of mean paired difference > 0 at n and all larger n"}
             tbl = pd.DataFrame([{k: v for k, v in r.items() if k != "per_repeat_diff"} for r in rows])
-            tbl.insert(0, "comparison", f"{NAMES[model]} - {NAMES[base]}")
+            tbl.insert(0, "comparison", f"{NAMES[model]} minus {NAMES[base]}")
             for c in ("mean_diff", "ci_low", "ci_high"):
                 tbl[c] = tbl[c].map(lambda v: f"{v:+.3f}")
             for c in ("p_value", "p_holm"):
                 tbl[c] = tbl[c].map(lambda v: f"{v:.4f}")
             tbl.drop(columns="size").to_csv(T / f"paired_{model}{bkey}{suffix}.csv", index=False)
+            tbl["n_train"] = tbl["n_train"].map(lambda n: f"{n:,}")
             (T / f"paired_{model}{bkey}{suffix}.md").write_text(md_table(tbl.drop(columns="size").rename(columns={
-            "comparison": "Comparison", "n_train": "Train size", "repeats": "Repeats", "mean_diff": "Mean diff",
-            "ci_low": "CI low", "ci_high": "CI high", "p_value": "p", "repeats_first_better": "Repeats first better",
-            "p_holm": "p (Holm)"})))
+                "comparison": "Comparison", "n_train": "Train size", "repeats": "Repeats", "mean_diff": "Mean diff",
+                "ci_low": "CI low", "ci_high": "CI high", "p_value": "p", "repeats_first_better": "Repeats first better",
+                "p_holm": "p (Holm)"})))
     (M / "paired_by_size.json").write_text(json.dumps(paired, indent=2))
 
     # Full-training-set comparison (repeat 0 of each model, identical training data).
@@ -233,49 +239,59 @@ def main():
             "note": "different test sets; intervals are not a paired comparison"}, indent=2))
 
     # Figures.
-    plt.rcParams.update({"font.size": 10, "axes.spines.top": False, "axes.spines.right": False})
-    fig, ax = plt.subplots(figsize=(6.4, 4.0))
-    for model in [m for m in ("char_lr", "xlmr", "nepberta") if m in models]:
-        d = lc[lc.model == model].sort_values("n_train")
-        pts = g[g.model == model]
-        ax.scatter(pts.n_train * (1.06 if model == "xlmr" else 0.94), pts.test_macro_f1, s=10,
-                   color=COLORS[model], alpha=0.45, linewidths=0)
-        ax.plot(d.n_train, d.median_macro_f1, color=COLORS[model], marker=MARKERS[model], markersize=5, linewidth=2)
-        ax.annotate(NAMES[model], (d.n_train.iloc[-1], d.median_macro_f1.iloc[-1]), xytext=(6, 0),
-                    textcoords="offset points", va="center", color="#0b0b0b", fontsize=9)
+    # Figures. Model names, colours and markers are fixed per model across figures.
+    plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10, "axes.labelsize": 10,
+                         "xtick.labelsize": 9, "ytick.labelsize": 9, "legend.fontsize": 9,
+                         "axes.spines.top": False, "axes.spines.right": False})
+    order = [m for m in ("char_lr", "xlmr", "nepberta") if m in models]
+    sizes = sorted(lc.n_train.unique())
+
+    def size_axis(ax):
+        ax.set_xscale("log")
+        ax.xaxis.set_major_locator(matplotlib.ticker.FixedLocator(sizes))
+        ax.xaxis.set_major_formatter(matplotlib.ticker.FuncFormatter(lambda x, _: f"{int(round(x)):,}"))
+        ax.xaxis.set_minor_locator(matplotlib.ticker.NullLocator())
+        ax.set_xlabel("Training examples, log scale")
+        ax.grid(axis="y", color="#e6e5e0", linewidth=0.8)
+        ax.set_axisbelow(True)
+
+    fig, ax = plt.subplots(figsize=(6.6, 4.2))
     maj = lc[lc.model == "majority"]
     if len(maj):
-        ax.axhline(maj.mean_macro_f1.iloc[0], color="#52514e", linestyle=":", linewidth=1)
-        ax.annotate("Majority class", (lc.n_train.min(), maj.mean_macro_f1.iloc[0]), xytext=(0, 4),
-                    textcoords="offset points", fontsize=8, color="#52514e")
-    ax.set_xscale("log")
-    ax.set_xlabel("Training examples (log scale)")
+        ax.axhline(maj.mean_macro_f1.iloc[0], color="#8a8984", linestyle=":", linewidth=1, label=NAMES["majority"])
+    for model in order:
+        d = lc[lc.model == model].sort_values("n_train")
+        pts = g[g.model == model]
+        ax.scatter(pts.n_train, pts.test_macro_f1, s=9, color=COLORS[model], alpha=0.35, linewidths=0, zorder=2)
+        ax.plot(d.n_train, d.median_macro_f1, color=COLORS[model], marker=MARKERS[model], markersize=5,
+                linewidth=2, label=NAMES[model], zorder=3)
+    size_axis(ax)
     ax.set_ylabel("Test macro F1")
-    ax.set_ylim(0.18, None)
-    ax.grid(axis="y", color="#e6e5e0", linewidth=0.8)
-    ax.set_xlim(right=lc.n_train.max() * 2.6)
+    ax.set_ylim(0.18, 0.72)
+    handles, labels = ax.get_legend_handles_labels()
+    want = [NAMES[m] for m in order] + [NAMES["majority"]]
+    hl = sorted(zip(handles, labels), key=lambda x: want.index(x[1]))
+    ax.legend([h for h, _ in hl], [l for _, l in hl], frameon=False, loc="lower right", bbox_to_anchor=(1.0, 0.12))
     fig.tight_layout()
     fig.savefig(F / "learning_curve.png", dpi=200)
     plt.close(fig)
 
     if paired:
-        fig, ax = plt.subplots(figsize=(6.4, 3.6))
-        for key, res in paired.items():
-            if "_vs_" in key:
+        fig, ax = plt.subplots(figsize=(6.6, 4.4))
+        for key in ("xlmr", "nepberta", "xlmr_propval"):
+            if key not in paired:
                 continue
             model, prop = key.replace("_propval", ""), key.endswith("_propval")
-            d = pd.DataFrame(res["rows"])
+            d = pd.DataFrame(paired[key]["rows"])
             ax.errorbar(d.n_train * (1.08 if prop else 1.0), d.mean_diff,
                         yerr=[d.mean_diff - d.ci_low, d.ci_high - d.mean_diff],
                         color=COLORS[model], marker=MARKERS[model], markersize=5, linewidth=2, capsize=3,
                         linestyle="--" if prop else "-", markerfacecolor="white" if prop else COLORS[model],
-                        label=f"{NAMES[model]} minus Char n-gram LR" + (" (small validation set)" if prop else ""))
-        ax.axhline(0, color="#52514e", linewidth=1)
-        ax.set_xscale("log")
-        ax.set_xlabel("Training examples (log scale)")
-        ax.set_ylabel("Macro F1 difference")
-        ax.grid(axis="y", color="#e6e5e0", linewidth=0.8)
-        ax.legend(frameon=False, fontsize=9, loc="upper right")
+                        label=f"{NAMES[model]} minus character model" + (", small validation set" if prop else ""))
+        ax.axhline(0, color="#52514e", linewidth=0.8)
+        size_axis(ax)
+        ax.set_ylabel("Difference in test macro F1")
+        ax.legend(frameon=False, loc="lower left", bbox_to_anchor=(0.0, 1.0), borderaxespad=0.2)
         fig.tight_layout()
         fig.savefig(F / "difference_by_size.png", dpi=200)
         plt.close(fig)

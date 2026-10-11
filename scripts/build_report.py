@@ -123,12 +123,16 @@ def values():
 
     for tbl in ("learning_curve", "paired_xlmr", "paired_xlmr_propval", "paired_nepberta", "paired_nepberta_vs_xlmr", "full_comparison"):
         p = T / f"{tbl}.md"
-        v[f"table_{tbl}"] = p.read_text(encoding="utf-8").strip() if p.exists() else "(not available)"
+        text = p.read_text(encoding="utf-8").strip() if p.exists() else "(not available)"
+        if tbl.startswith("paired") and p.exists():
+            # The section heading names the comparison, so the repeated first column is dropped here.
+            text = "\n".join("|" + "|".join(line.split("|")[2:]) for line in text.splitlines())
+        v[f"table_{tbl}"] = text
     return v
 
 
 def render(md_text: str) -> str:
-    body = markdown.markdown(md_text, extensions=["tables"])
+    body = markdown.markdown(md_text, extensions=["tables", "md_in_html"])
     css = """
     body { font-family: Georgia, 'Times New Roman', serif; max-width: 46em; margin: 2em auto; padding: 0 16px;
            line-height: 1.45; color: #111; background: #fff; font-size: 11pt; }
@@ -136,8 +140,14 @@ def render(md_text: str) -> str:
     table { border-collapse: collapse; margin: 0.8em 0; font-size: 0.86em; }
     th, td { border-bottom: 1px solid #ccc; padding: 3px 7px; text-align: left; }
     th { border-bottom: 1.5px solid #333; }
-    img { max-width: 100%; } figure { margin: 1em 0; } code { font-size: 0.9em; }
-    p.caption { font-size: 0.9em; color: #333; }
+    img { max-width: 100%; display: block; margin: 0 auto; } code { font-size: 0.9em; }
+    figure { margin: 1.2em 0; break-inside: avoid; page-break-inside: avoid; }
+    figcaption { font-size: 0.9em; color: #333; margin-top: 0.4em; }
+    h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+    tr { break-inside: avoid; page-break-inside: avoid; }
+    .keep { break-inside: avoid; page-break-inside: avoid; }
+    p, li { orphans: 3; widows: 3; }
+    @page { margin: 18mm 16mm; }
     """
     return f"<!doctype html><html><head><meta charset='utf-8'><title>How Much Data Do Nepali Sentiment Models Need?</title><style>{css}</style></head><body>{body}</body></html>"
 
@@ -169,6 +179,7 @@ def main():
     browser = find_browser()
     if browser:
         pdf = Path("report/report.pdf").resolve()
+        pdf.unlink(missing_ok=True)
         import tempfile
         profile = tempfile.mkdtemp(prefix="nepsent_pdf_")
         subprocess.run([browser, "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
@@ -177,6 +188,7 @@ def main():
         import time
         for _ in range(60):  # the Edge launcher can return before the PDF is written
             if pdf.exists() and pdf.stat().st_size > 0:
+                time.sleep(2)
                 break
             time.sleep(1)
         shutil.rmtree(profile, ignore_errors=True)

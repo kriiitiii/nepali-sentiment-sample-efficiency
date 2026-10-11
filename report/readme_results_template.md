@@ -3,19 +3,21 @@ Test macro F1 on the grouped held-out test set ({n_test} tweets). Full training 
 | Model | Macro F1 | 95% CI |
 |---|---|---|
 | Majority class | {full_majority} | {full_majority_ci} |
-| Char n-gram TF-IDF + LR | {full_char_lr} | {full_char_lr_ci} |
-| XLM-R base | {full_xlmr} | {full_xlmr_ci} |
+| Character n-gram logistic regression | {full_char_lr} | {full_char_lr_ci} |
+| XLM-R | {full_xlmr} | {full_xlmr_ci} |
 | NepBERTa | {full_nepberta} | {full_nepberta_ci} |
 
 Learning curve (mean over repeats):
 
 | Training examples | 100 | 500 | 1,000 | 2,500 | 10,000 | {n_full} |
 |---|---|---|---|---|---|---|
-| Char n-gram LR | {char_lr_100} | {char_lr_500} | {char_lr_1000} | {char_lr_2500} | {char_lr_10000} | {char_lr_full} |
-| XLM-R base | {xlmr_100} | {xlmr_500} | {xlmr_1000} | {xlmr_2500} | {xlmr_10000} | {xlmr_full} |
+| Character n-gram logistic regression | {char_lr_100} | {char_lr_500} | {char_lr_1000} | {char_lr_2500} | {char_lr_10000} | {char_lr_full} |
+| XLM-R | {xlmr_100} | {xlmr_500} | {xlmr_1000} | {xlmr_2500} | {xlmr_10000} | {xlmr_full} |
 | NepBERTa | {nepberta_100} | {nepberta_500} | {nepberta_1000} | {nepberta_2500} | {nepberta_10000} | {nepberta_full} |
 
-![Learning curves](outputs/figures/learning_curve.png)
+![Test macro F1 by training set size for the character n-gram model, XLM-R and NepBERTa](outputs/figures/learning_curve.png)
+
+Lines join the median over repeats; faint points are individual runs; the dotted line is the majority class baseline.
 
 Main findings:
 

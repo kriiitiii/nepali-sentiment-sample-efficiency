@@ -5,8 +5,14 @@
     table { border-collapse: collapse; margin: 0.8em 0; font-size: 0.86em; }
     th, td { border-bottom: 1px solid #ccc; padding: 3px 7px; text-align: left; }
     th { border-bottom: 1.5px solid #333; }
-    img { max-width: 100%; } figure { margin: 1em 0; } code { font-size: 0.9em; }
-    p.caption { font-size: 0.9em; color: #333; }
+    img { max-width: 100%; display: block; margin: 0 auto; } code { font-size: 0.9em; }
+    figure { margin: 1.2em 0; break-inside: avoid; page-break-inside: avoid; }
+    figcaption { font-size: 0.9em; color: #333; margin-top: 0.4em; }
+    h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+    tr { break-inside: avoid; page-break-inside: avoid; }
+    .keep { break-inside: avoid; page-break-inside: avoid; }
+    p, li { orphans: 3; widows: 3; }
+    @page { margin: 18mm 16mm; }
     </style></head><body><h1>How Much Data Do Nepali Sentiment Models Need? Character Baselines versus Multilingual and Language-Specific Transformers</h1>
 <p>Kriti Dahal and Gaurab Khadka</p>
 <p>Independent research project. Technical report, October 2026.</p>
@@ -71,7 +77,7 @@
 <td>0.619</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
+<td>Character n-gram logistic regression</td>
 <td>0.657</td>
 <td>0.644 to 0.669</td>
 <td>0.706</td>
@@ -80,7 +86,7 @@
 <td>0.752</td>
 </tr>
 <tr>
-<td>XLM-R base</td>
+<td>XLM-R</td>
 <td>0.676</td>
 <td>0.663 to 0.688</td>
 <td>0.756</td>
@@ -101,10 +107,13 @@
 </table>
 <p>On the full training set (repeat 0), XLM-R reaches macro F1 0.676 (0.663 to 0.688) and the character model 0.657 (0.644 to 0.669). The paired difference, character model minus XLM-R, is -0.019 (-0.033 to -0.005; Holm-adjusted p = 0.0110). The exact McNemar test, which concerns accuracy rather than macro F1, counts items correct only for the character model versus only for XLM-R: 536 vs 871, exact p = 3.7e-19. The neutral class is the hardest for every model: neutral F1 is 0.466 for the character model and 0.420 for XLM-R. On this one class the character model is ahead.</p>
 <p>NepBERTa reaches 0.684 (0.672 to 0.696) at full size. Its paired difference from XLM-R, XLM-R minus NepBERTa, is -0.008 (-0.021 to +0.004; Holm-adjusted p = 0.1994), so the two transformers cannot be distinguished on macro F1. The McNemar counts (557 vs 443, exact p = 0.00035) show that XLM-R is correct more often. This is consistent with its higher accuracy (0.756 versus 0.739) and NepBERTa's better neutral-class F1 (0.479 versus 0.420). Accuracy and macro F1 weight these trade-offs differently.</p>
+<div class="keep">
 <h2>6 Learning Curve Analysis</h2>
-<p><img alt="Learning curves" src="../outputs/figures/learning_curve.png" /></p>
-<p class="caption">Figure 1. Test macro F1 against training size (log scale). Lines are medians over repeats; dots are individual runs. The dotted line is the majority-class baseline.</p>
-
+<figure>
+<img src="../outputs/figures/learning_curve.png" alt="Learning curves">
+<figcaption>Figure 1. Test macro F1 by training set size on the fixed test set. Lines join the median over repeats (5 repeats up to 2,500 examples, 3 above); faint points are individual runs. The dotted line is the majority class baseline.</figcaption>
+</figure>
+</div>
 <table>
 <thead>
 <tr>
@@ -122,7 +131,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Char n-gram LR</td>
+<td>Character n-gram logistic regression</td>
 <td>100</td>
 <td>5</td>
 <td>0.448</td>
@@ -134,7 +143,7 @@
 <td>0.456</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
+<td>Character n-gram logistic regression</td>
 <td>250</td>
 <td>5</td>
 <td>0.480</td>
@@ -146,7 +155,7 @@
 <td>0.488</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
+<td>Character n-gram logistic regression</td>
 <td>500</td>
 <td>5</td>
 <td>0.505</td>
@@ -158,8 +167,8 @@
 <td>0.515</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
-<td>1000</td>
+<td>Character n-gram logistic regression</td>
+<td>1,000</td>
 <td>5</td>
 <td>0.538</td>
 <td>0.541</td>
@@ -170,8 +179,8 @@
 <td>0.548</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
-<td>2500</td>
+<td>Character n-gram logistic regression</td>
+<td>2,500</td>
 <td>5</td>
 <td>0.580</td>
 <td>0.579</td>
@@ -182,8 +191,8 @@
 <td>0.590</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
-<td>5000</td>
+<td>Character n-gram logistic regression</td>
+<td>5,000</td>
 <td>3</td>
 <td>0.610</td>
 <td>0.609</td>
@@ -194,8 +203,8 @@
 <td>0.620</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
-<td>10000</td>
+<td>Character n-gram logistic regression</td>
+<td>10,000</td>
 <td>3</td>
 <td>0.635</td>
 <td>0.631</td>
@@ -206,8 +215,8 @@
 <td>0.646</td>
 </tr>
 <tr>
-<td>Char n-gram LR</td>
-<td>23385</td>
+<td>Character n-gram logistic regression</td>
+<td>23,385</td>
 <td>3</td>
 <td>0.657</td>
 <td>0.657</td>
@@ -216,6 +225,102 @@
 <td>0.657</td>
 <td>0.644</td>
 <td>0.669</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>100</td>
+<td>5</td>
+<td>0.521</td>
+<td>0.517</td>
+<td>0.012</td>
+<td>0.511</td>
+<td>0.540</td>
+<td>0.513</td>
+<td>0.529</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>250</td>
+<td>5</td>
+<td>0.501</td>
+<td>0.560</td>
+<td>0.153</td>
+<td>0.228</td>
+<td>0.583</td>
+<td>0.493</td>
+<td>0.508</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>500</td>
+<td>5</td>
+<td>0.592</td>
+<td>0.592</td>
+<td>0.006</td>
+<td>0.584</td>
+<td>0.600</td>
+<td>0.584</td>
+<td>0.600</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>1,000</td>
+<td>5</td>
+<td>0.612</td>
+<td>0.614</td>
+<td>0.014</td>
+<td>0.592</td>
+<td>0.630</td>
+<td>0.603</td>
+<td>0.620</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>2,500</td>
+<td>5</td>
+<td>0.633</td>
+<td>0.634</td>
+<td>0.006</td>
+<td>0.623</td>
+<td>0.640</td>
+<td>0.623</td>
+<td>0.643</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>5,000</td>
+<td>3</td>
+<td>0.634</td>
+<td>0.629</td>
+<td>0.009</td>
+<td>0.628</td>
+<td>0.644</td>
+<td>0.622</td>
+<td>0.644</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>10,000</td>
+<td>3</td>
+<td>0.654</td>
+<td>0.651</td>
+<td>0.008</td>
+<td>0.646</td>
+<td>0.663</td>
+<td>0.642</td>
+<td>0.664</td>
+</tr>
+<tr>
+<td>XLM-R</td>
+<td>23,385</td>
+<td>3</td>
+<td>0.679</td>
+<td>0.676</td>
+<td>0.008</td>
+<td>0.673</td>
+<td>0.689</td>
+<td>0.668</td>
+<td>0.690</td>
 </tr>
 <tr>
 <td>NepBERTa</td>
@@ -255,7 +360,7 @@
 </tr>
 <tr>
 <td>NepBERTa</td>
-<td>1000</td>
+<td>1,000</td>
 <td>5</td>
 <td>0.588</td>
 <td>0.593</td>
@@ -267,7 +372,7 @@
 </tr>
 <tr>
 <td>NepBERTa</td>
-<td>2500</td>
+<td>2,500</td>
 <td>5</td>
 <td>0.619</td>
 <td>0.622</td>
@@ -279,7 +384,7 @@
 </tr>
 <tr>
 <td>NepBERTa</td>
-<td>5000</td>
+<td>5,000</td>
 <td>3</td>
 <td>0.635</td>
 <td>0.636</td>
@@ -291,7 +396,7 @@
 </tr>
 <tr>
 <td>NepBERTa</td>
-<td>10000</td>
+<td>10,000</td>
 <td>3</td>
 <td>0.651</td>
 <td>0.654</td>
@@ -303,7 +408,7 @@
 </tr>
 <tr>
 <td>NepBERTa</td>
-<td>23385</td>
+<td>23,385</td>
 <td>3</td>
 <td>0.679</td>
 <td>0.677</td>
@@ -313,112 +418,18 @@
 <td>0.669</td>
 <td>0.689</td>
 </tr>
-<tr>
-<td>XLM-R base</td>
-<td>100</td>
-<td>5</td>
-<td>0.521</td>
-<td>0.517</td>
-<td>0.012</td>
-<td>0.511</td>
-<td>0.540</td>
-<td>0.513</td>
-<td>0.529</td>
-</tr>
-<tr>
-<td>XLM-R base</td>
-<td>250</td>
-<td>5</td>
-<td>0.501</td>
-<td>0.560</td>
-<td>0.153</td>
-<td>0.228</td>
-<td>0.583</td>
-<td>0.493</td>
-<td>0.508</td>
-</tr>
-<tr>
-<td>XLM-R base</td>
-<td>500</td>
-<td>5</td>
-<td>0.592</td>
-<td>0.592</td>
-<td>0.006</td>
-<td>0.584</td>
-<td>0.600</td>
-<td>0.584</td>
-<td>0.600</td>
-</tr>
-<tr>
-<td>XLM-R base</td>
-<td>1000</td>
-<td>5</td>
-<td>0.612</td>
-<td>0.614</td>
-<td>0.014</td>
-<td>0.592</td>
-<td>0.630</td>
-<td>0.603</td>
-<td>0.620</td>
-</tr>
-<tr>
-<td>XLM-R base</td>
-<td>2500</td>
-<td>5</td>
-<td>0.633</td>
-<td>0.634</td>
-<td>0.006</td>
-<td>0.623</td>
-<td>0.640</td>
-<td>0.623</td>
-<td>0.643</td>
-</tr>
-<tr>
-<td>XLM-R base</td>
-<td>5000</td>
-<td>3</td>
-<td>0.634</td>
-<td>0.629</td>
-<td>0.009</td>
-<td>0.628</td>
-<td>0.644</td>
-<td>0.622</td>
-<td>0.644</td>
-</tr>
-<tr>
-<td>XLM-R base</td>
-<td>10000</td>
-<td>3</td>
-<td>0.654</td>
-<td>0.651</td>
-<td>0.008</td>
-<td>0.646</td>
-<td>0.663</td>
-<td>0.642</td>
-<td>0.664</td>
-</tr>
-<tr>
-<td>XLM-R base</td>
-<td>23385</td>
-<td>3</td>
-<td>0.679</td>
-<td>0.676</td>
-<td>0.008</td>
-<td>0.673</td>
-<td>0.689</td>
-<td>0.668</td>
-<td>0.690</td>
-</tr>
 </tbody>
 </table>
-<p><img alt="Paired differences" src="../outputs/figures/difference_by_size.png" /></p>
-<p class="caption">Figure 2. Mean paired macro F1 difference (transformer minus character model) with 95% test-bootstrap intervals. Dashed series use a validation set scaled to the training size (Section 6.2).</p>
+<figure>
+<img src="../outputs/figures/difference_by_size.png" alt="Paired differences">
+<figcaption>Figure 2. Mean paired difference in test macro F1 between each transformer and the character n-gram logistic regression trained on the same subsamples. Error bars are 95% intervals from a bootstrap over test items. The dashed series with open markers uses a validation set scaled to the training size (Section 6.2) and is shifted slightly to the right for legibility.</figcaption>
+</figure>
 
+<div class="keep">
 <h3>6.1 XLM-R versus the character model</h3>
 <table>
 <thead>
 <tr>
-<th>Comparison</th>
 <th>Train size</th>
 <th>Repeats</th>
 <th>Mean diff</th>
@@ -431,7 +442,6 @@
 </thead>
 <tbody>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
 <td>100</td>
 <td>5</td>
 <td>+0.073</td>
@@ -442,7 +452,6 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
 <td>250</td>
 <td>5</td>
 <td>+0.021</td>
@@ -453,7 +462,6 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
 <td>500</td>
 <td>5</td>
 <td>+0.087</td>
@@ -464,8 +472,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
-<td>1000</td>
+<td>1,000</td>
 <td>5</td>
 <td>+0.074</td>
 <td>+0.064</td>
@@ -475,8 +482,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
-<td>2500</td>
+<td>2,500</td>
 <td>5</td>
 <td>+0.053</td>
 <td>+0.044</td>
@@ -486,8 +492,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
-<td>5000</td>
+<td>5,000</td>
 <td>3</td>
 <td>+0.024</td>
 <td>+0.013</td>
@@ -497,8 +502,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
-<td>10000</td>
+<td>10,000</td>
 <td>3</td>
 <td>+0.019</td>
 <td>+0.008</td>
@@ -508,8 +512,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
-<td>23385</td>
+<td>23,385</td>
 <td>3</td>
 <td>+0.023</td>
 <td>+0.010</td>
@@ -520,6 +523,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>XLM-R is better than the character model at every size tested. Mean paired differences range from +0.019 to +0.087, and the largest gap is at 500 examples. Every interval excludes zero (largest Holm-adjusted p = 0.0040). Under the pre-specified definition, the crossover is at or below the smallest size tested, 100 examples. In other words, we find no training budget in the tested range at which the character model is preferable. The advantage is not monotone. It peaks between 500 and 1,000 examples, then shrinks to about two points of macro F1 from 5,000 examples onward, where the character model continues to improve steadily.</p>
 <p>Fine-tuning is unstable at small sizes. Individual XLM-R runs collapsed to near-majority predictions in these cells: XLM-R at n = 250 (minimum 0.228). The 250-example cell is where XLM-R's advantage is smallest, and that collapsed run accounts for part of it. Averages over repeats include such failures, as a practitioner would encounter them.</p>
 <h3>6.2 Sensitivity to validation-set size</h3>
@@ -527,7 +531,6 @@
 <table>
 <thead>
 <tr>
-<th>Comparison</th>
 <th>Train size</th>
 <th>Repeats</th>
 <th>Mean diff</th>
@@ -540,7 +543,6 @@
 </thead>
 <tbody>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
 <td>100</td>
 <td>5</td>
 <td>+0.064</td>
@@ -551,7 +553,6 @@
 <td>0.0020</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
 <td>250</td>
 <td>5</td>
 <td>+0.024</td>
@@ -562,7 +563,6 @@
 <td>0.0020</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
 <td>500</td>
 <td>5</td>
 <td>+0.081</td>
@@ -573,8 +573,7 @@
 <td>0.0020</td>
 </tr>
 <tr>
-<td>XLM-R base - Char n-gram LR</td>
-<td>1000</td>
+<td>1,000</td>
 <td>5</td>
 <td>+0.069</td>
 <td>+0.059</td>
@@ -590,7 +589,6 @@
 <table>
 <thead>
 <tr>
-<th>Comparison</th>
 <th>Train size</th>
 <th>Repeats</th>
 <th>Mean diff</th>
@@ -603,7 +601,6 @@
 </thead>
 <tbody>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
 <td>100</td>
 <td>5</td>
 <td>+0.051</td>
@@ -614,7 +611,6 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
 <td>250</td>
 <td>5</td>
 <td>+0.060</td>
@@ -625,7 +621,6 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
 <td>500</td>
 <td>5</td>
 <td>+0.065</td>
@@ -636,8 +631,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
-<td>1000</td>
+<td>1,000</td>
 <td>5</td>
 <td>+0.050</td>
 <td>+0.040</td>
@@ -647,8 +641,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
-<td>2500</td>
+<td>2,500</td>
 <td>5</td>
 <td>+0.039</td>
 <td>+0.029</td>
@@ -658,8 +651,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
-<td>5000</td>
+<td>5,000</td>
 <td>3</td>
 <td>+0.026</td>
 <td>+0.016</td>
@@ -669,8 +661,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
-<td>10000</td>
+<td>10,000</td>
 <td>3</td>
 <td>+0.016</td>
 <td>+0.006</td>
@@ -680,8 +671,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - Char n-gram LR</td>
-<td>23385</td>
+<td>23,385</td>
 <td>3</td>
 <td>+0.023</td>
 <td>+0.011</td>
@@ -696,7 +686,6 @@
 <table>
 <thead>
 <tr>
-<th>Comparison</th>
 <th>Train size</th>
 <th>Repeats</th>
 <th>Mean diff</th>
@@ -709,7 +698,6 @@
 </thead>
 <tbody>
 <tr>
-<td>NepBERTa - XLM-R base</td>
 <td>100</td>
 <td>5</td>
 <td>-0.021</td>
@@ -720,7 +708,6 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - XLM-R base</td>
 <td>250</td>
 <td>5</td>
 <td>+0.039</td>
@@ -731,7 +718,6 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - XLM-R base</td>
 <td>500</td>
 <td>5</td>
 <td>-0.023</td>
@@ -742,8 +728,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - XLM-R base</td>
-<td>1000</td>
+<td>1,000</td>
 <td>5</td>
 <td>-0.024</td>
 <td>-0.032</td>
@@ -753,8 +738,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - XLM-R base</td>
-<td>2500</td>
+<td>2,500</td>
 <td>5</td>
 <td>-0.015</td>
 <td>-0.023</td>
@@ -764,8 +748,7 @@
 <td>0.0040</td>
 </tr>
 <tr>
-<td>NepBERTa - XLM-R base</td>
-<td>5000</td>
+<td>5,000</td>
 <td>3</td>
 <td>+0.002</td>
 <td>-0.008</td>
@@ -775,8 +758,7 @@
 <td>1.0000</td>
 </tr>
 <tr>
-<td>NepBERTa - XLM-R base</td>
-<td>10000</td>
+<td>10,000</td>
 <td>3</td>
 <td>-0.003</td>
 <td>-0.012</td>
@@ -786,8 +768,7 @@
 <td>1.0000</td>
 </tr>
 <tr>
-<td>NepBERTa - XLM-R base</td>
-<td>23385</td>
+<td>23,385</td>
 <td>3</td>
 <td>+0.000</td>
 <td>-0.009</td>
@@ -803,7 +784,7 @@
 <p>With the same n-gram settings (C and class weight re-selected on each split's own validation set), the character model scores 0.657 (0.644 to 0.669) on the grouped test set and 0.673 (0.661 to 0.685) on a random split of the same proportions. The difference is +0.016. The two test sets differ, so this is a descriptive comparison rather than a paired test. Even so, the direction is as expected. Random splits place near copies of test tweets in training, and they likely overstate the performance reported in earlier work on this corpus.</p>
 <h2>8 Error Analysis</h2>
 <p>We compare the full-size XLM-R and character-model predictions (repeat 0). Both models are wrong on 1,093 test items. On 866 of these (79%), they predict the same wrong label. XLM-R alone is wrong on 536 items and the character model alone on 871. Such strong agreement on errors between two very different model families suggests that a substantial part of the residual error lies in the items themselves. It may come from ambiguous tweets or from label noise, and no annotator-agreement statistic is available to separate the two.</p>
-<p>Of XLM-R's 1,629 errors, 680 (42%) are outright polarity reversals between positive and negative, and 628 are neutral tweets predicted as polar. Performance falls with tweet length for both models: macro F1 is 0.755 (XLM-R) and 0.721 (character) on tweets of 1-8 words, and 0.595 and 0.581 on tweets of 28 or more words. Longer tweets in this corpus are often multi-clause news items in which the sentiment target is unclear.</p>
+<p>Of XLM-R's 1,629 errors, 680 (42%) are outright polarity reversals between positive and negative, and 628 are neutral tweets predicted as polar. Performance falls with tweet length for both models: macro F1 is 0.755 (XLM-R) and 0.721 (character) on tweets of 1 to 8 words, and 0.595 and 0.581 on tweets of 28 or more words. Longer tweets in this corpus are often multi-clause news items in which the sentiment target is unclear.</p>
 <p>This error analysis is quantitative only. We did not manually code error categories.</p>
 <h2>9 Discussion</h2>
 <p>On this corpus, a multilingual transformer is the better choice at every training budget we tested, including 100 examples. The often-cited intuition that simple character models win in the very low-data regime does not hold here. One plausible reason is that the tweets are mostly formal, news-style Devanagari text that matches the transformer's pretraining distribution, and character n-grams have no spelling noise to exploit. The result should not be extrapolated to Romanized or code-mixed text, where Pahari and Shimada (2023) found a TF-IDF model on par with transformers at about 10,000 examples.</p>

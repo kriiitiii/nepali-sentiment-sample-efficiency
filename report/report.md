@@ -70,63 +70,73 @@ The primary metric is test macro F1. For each size, the quantity of interest is 
 | Model | Macro F1 | 95% CI | Accuracy | F1 neg | F1 neu | F1 pos |
 |---|---|---|---|---|---|---|
 | Majority class | 0.206 | 0.203 to 0.210 | 0.448 | 0.000 | 0.000 | 0.619 |
-| Char n-gram LR | 0.657 | 0.644 to 0.669 | 0.706 | 0.751 | 0.466 | 0.752 |
-| XLM-R base | 0.676 | 0.663 to 0.688 | 0.756 | 0.805 | 0.420 | 0.802 |
+| Character n-gram logistic regression | 0.657 | 0.644 to 0.669 | 0.706 | 0.751 | 0.466 | 0.752 |
+| XLM-R | 0.676 | 0.663 to 0.688 | 0.756 | 0.805 | 0.420 | 0.802 |
 | NepBERTa | 0.684 | 0.672 to 0.696 | 0.739 | 0.789 | 0.479 | 0.783 |
 
 On the full training set (repeat 0), XLM-R reaches macro F1 0.676 (0.663 to 0.688) and the character model 0.657 (0.644 to 0.669). The paired difference, character model minus XLM-R, is -0.019 (-0.033 to -0.005; Holm-adjusted p = 0.0110). The exact McNemar test, which concerns accuracy rather than macro F1, counts items correct only for the character model versus only for XLM-R: 536 vs 871, exact p = 3.7e-19. The neutral class is the hardest for every model: neutral F1 is 0.466 for the character model and 0.420 for XLM-R. On this one class the character model is ahead.
 
 NepBERTa reaches 0.684 (0.672 to 0.696) at full size. Its paired difference from XLM-R, XLM-R minus NepBERTa, is -0.008 (-0.021 to +0.004; Holm-adjusted p = 0.1994), so the two transformers cannot be distinguished on macro F1. The McNemar counts (557 vs 443, exact p = 0.00035) show that XLM-R is correct more often. This is consistent with its higher accuracy (0.756 versus 0.739) and NepBERTa's better neutral-class F1 (0.479 versus 0.420). Accuracy and macro F1 weight these trade-offs differently.
 
+<div class="keep" markdown="1">
+
 ## 6 Learning Curve Analysis
 
-![Learning curves](../outputs/figures/learning_curve.png)
+<figure>
+<img src="../outputs/figures/learning_curve.png" alt="Learning curves">
+<figcaption>Figure 1. Test macro F1 by training set size on the fixed test set. Lines join the median over repeats (5 repeats up to 2,500 examples, 3 above); faint points are individual runs. The dotted line is the majority class baseline.</figcaption>
+</figure>
 
-<p class="caption">Figure 1. Test macro F1 against training size (log scale). Lines are medians over repeats; dots are individual runs. The dotted line is the majority-class baseline.</p>
+</div>
 
 | Model | Train size | Repeats | Mean | Median | SD | Min | Max | CI low | CI high |
 |---|---|---|---|---|---|---|---|---|---|
-| Char n-gram LR | 100 | 5 | 0.448 | 0.448 | 0.004 | 0.443 | 0.454 | 0.440 | 0.456 |
-| Char n-gram LR | 250 | 5 | 0.480 | 0.482 | 0.013 | 0.463 | 0.497 | 0.472 | 0.488 |
-| Char n-gram LR | 500 | 5 | 0.505 | 0.509 | 0.010 | 0.488 | 0.512 | 0.496 | 0.515 |
-| Char n-gram LR | 1000 | 5 | 0.538 | 0.541 | 0.005 | 0.530 | 0.541 | 0.528 | 0.548 |
-| Char n-gram LR | 2500 | 5 | 0.580 | 0.579 | 0.004 | 0.575 | 0.586 | 0.570 | 0.590 |
-| Char n-gram LR | 5000 | 3 | 0.610 | 0.609 | 0.002 | 0.607 | 0.612 | 0.599 | 0.620 |
-| Char n-gram LR | 10000 | 3 | 0.635 | 0.631 | 0.009 | 0.628 | 0.645 | 0.624 | 0.646 |
-| Char n-gram LR | 23385 | 3 | 0.657 | 0.657 | 0.000 | 0.657 | 0.657 | 0.644 | 0.669 |
+| Character n-gram logistic regression | 100 | 5 | 0.448 | 0.448 | 0.004 | 0.443 | 0.454 | 0.440 | 0.456 |
+| Character n-gram logistic regression | 250 | 5 | 0.480 | 0.482 | 0.013 | 0.463 | 0.497 | 0.472 | 0.488 |
+| Character n-gram logistic regression | 500 | 5 | 0.505 | 0.509 | 0.010 | 0.488 | 0.512 | 0.496 | 0.515 |
+| Character n-gram logistic regression | 1,000 | 5 | 0.538 | 0.541 | 0.005 | 0.530 | 0.541 | 0.528 | 0.548 |
+| Character n-gram logistic regression | 2,500 | 5 | 0.580 | 0.579 | 0.004 | 0.575 | 0.586 | 0.570 | 0.590 |
+| Character n-gram logistic regression | 5,000 | 3 | 0.610 | 0.609 | 0.002 | 0.607 | 0.612 | 0.599 | 0.620 |
+| Character n-gram logistic regression | 10,000 | 3 | 0.635 | 0.631 | 0.009 | 0.628 | 0.645 | 0.624 | 0.646 |
+| Character n-gram logistic regression | 23,385 | 3 | 0.657 | 0.657 | 0.000 | 0.657 | 0.657 | 0.644 | 0.669 |
+| XLM-R | 100 | 5 | 0.521 | 0.517 | 0.012 | 0.511 | 0.540 | 0.513 | 0.529 |
+| XLM-R | 250 | 5 | 0.501 | 0.560 | 0.153 | 0.228 | 0.583 | 0.493 | 0.508 |
+| XLM-R | 500 | 5 | 0.592 | 0.592 | 0.006 | 0.584 | 0.600 | 0.584 | 0.600 |
+| XLM-R | 1,000 | 5 | 0.612 | 0.614 | 0.014 | 0.592 | 0.630 | 0.603 | 0.620 |
+| XLM-R | 2,500 | 5 | 0.633 | 0.634 | 0.006 | 0.623 | 0.640 | 0.623 | 0.643 |
+| XLM-R | 5,000 | 3 | 0.634 | 0.629 | 0.009 | 0.628 | 0.644 | 0.622 | 0.644 |
+| XLM-R | 10,000 | 3 | 0.654 | 0.651 | 0.008 | 0.646 | 0.663 | 0.642 | 0.664 |
+| XLM-R | 23,385 | 3 | 0.679 | 0.676 | 0.008 | 0.673 | 0.689 | 0.668 | 0.690 |
 | NepBERTa | 100 | 5 | 0.500 | 0.500 | 0.021 | 0.475 | 0.526 | 0.491 | 0.508 |
 | NepBERTa | 250 | 5 | 0.540 | 0.544 | 0.010 | 0.524 | 0.548 | 0.532 | 0.548 |
 | NepBERTa | 500 | 5 | 0.570 | 0.570 | 0.004 | 0.565 | 0.576 | 0.561 | 0.579 |
-| NepBERTa | 1000 | 5 | 0.588 | 0.593 | 0.008 | 0.575 | 0.595 | 0.579 | 0.597 |
-| NepBERTa | 2500 | 5 | 0.619 | 0.622 | 0.007 | 0.609 | 0.625 | 0.610 | 0.628 |
-| NepBERTa | 5000 | 3 | 0.635 | 0.636 | 0.012 | 0.622 | 0.647 | 0.625 | 0.645 |
-| NepBERTa | 10000 | 3 | 0.651 | 0.654 | 0.010 | 0.640 | 0.658 | 0.640 | 0.661 |
-| NepBERTa | 23385 | 3 | 0.679 | 0.677 | 0.004 | 0.677 | 0.684 | 0.669 | 0.689 |
-| XLM-R base | 100 | 5 | 0.521 | 0.517 | 0.012 | 0.511 | 0.540 | 0.513 | 0.529 |
-| XLM-R base | 250 | 5 | 0.501 | 0.560 | 0.153 | 0.228 | 0.583 | 0.493 | 0.508 |
-| XLM-R base | 500 | 5 | 0.592 | 0.592 | 0.006 | 0.584 | 0.600 | 0.584 | 0.600 |
-| XLM-R base | 1000 | 5 | 0.612 | 0.614 | 0.014 | 0.592 | 0.630 | 0.603 | 0.620 |
-| XLM-R base | 2500 | 5 | 0.633 | 0.634 | 0.006 | 0.623 | 0.640 | 0.623 | 0.643 |
-| XLM-R base | 5000 | 3 | 0.634 | 0.629 | 0.009 | 0.628 | 0.644 | 0.622 | 0.644 |
-| XLM-R base | 10000 | 3 | 0.654 | 0.651 | 0.008 | 0.646 | 0.663 | 0.642 | 0.664 |
-| XLM-R base | 23385 | 3 | 0.679 | 0.676 | 0.008 | 0.673 | 0.689 | 0.668 | 0.690 |
+| NepBERTa | 1,000 | 5 | 0.588 | 0.593 | 0.008 | 0.575 | 0.595 | 0.579 | 0.597 |
+| NepBERTa | 2,500 | 5 | 0.619 | 0.622 | 0.007 | 0.609 | 0.625 | 0.610 | 0.628 |
+| NepBERTa | 5,000 | 3 | 0.635 | 0.636 | 0.012 | 0.622 | 0.647 | 0.625 | 0.645 |
+| NepBERTa | 10,000 | 3 | 0.651 | 0.654 | 0.010 | 0.640 | 0.658 | 0.640 | 0.661 |
+| NepBERTa | 23,385 | 3 | 0.679 | 0.677 | 0.004 | 0.677 | 0.684 | 0.669 | 0.689 |
 
-![Paired differences](../outputs/figures/difference_by_size.png)
+<figure>
+<img src="../outputs/figures/difference_by_size.png" alt="Paired differences">
+<figcaption>Figure 2. Mean paired difference in test macro F1 between each transformer and the character n-gram logistic regression trained on the same subsamples. Error bars are 95% intervals from a bootstrap over test items. The dashed series with open markers uses a validation set scaled to the training size (Section 6.2) and is shifted slightly to the right for legibility.</figcaption>
+</figure>
 
-<p class="caption">Figure 2. Mean paired macro F1 difference (transformer minus character model) with 95% test-bootstrap intervals. Dashed series use a validation set scaled to the training size (Section 6.2).</p>
+<div class="keep" markdown="1">
 
 ### 6.1 XLM-R versus the character model
 
-| Comparison | Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
-|---|---|---|---|---|---|---|---|---|
-| XLM-R base - Char n-gram LR | 100 | 5 | +0.073 | +0.065 | +0.080 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 250 | 5 | +0.021 | +0.013 | +0.029 | 0.0005 | 4 | 0.0040 |
-| XLM-R base - Char n-gram LR | 500 | 5 | +0.087 | +0.078 | +0.096 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 1000 | 5 | +0.074 | +0.064 | +0.083 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 2500 | 5 | +0.053 | +0.044 | +0.063 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 5000 | 3 | +0.024 | +0.013 | +0.035 | 0.0005 | 3 | 0.0040 |
-| XLM-R base - Char n-gram LR | 10000 | 3 | +0.019 | +0.008 | +0.030 | 0.0025 | 3 | 0.0040 |
-| XLM-R base - Char n-gram LR | 23385 | 3 | +0.023 | +0.010 | +0.034 | 0.0015 | 3 | 0.0040 |
+| Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
+|---|---|---|---|---|---|---|---|
+| 100 | 5 | +0.073 | +0.065 | +0.080 | 0.0005 | 5 | 0.0040 |
+| 250 | 5 | +0.021 | +0.013 | +0.029 | 0.0005 | 4 | 0.0040 |
+| 500 | 5 | +0.087 | +0.078 | +0.096 | 0.0005 | 5 | 0.0040 |
+| 1,000 | 5 | +0.074 | +0.064 | +0.083 | 0.0005 | 5 | 0.0040 |
+| 2,500 | 5 | +0.053 | +0.044 | +0.063 | 0.0005 | 5 | 0.0040 |
+| 5,000 | 3 | +0.024 | +0.013 | +0.035 | 0.0005 | 3 | 0.0040 |
+| 10,000 | 3 | +0.019 | +0.008 | +0.030 | 0.0025 | 3 | 0.0040 |
+| 23,385 | 3 | +0.023 | +0.010 | +0.034 | 0.0015 | 3 | 0.0040 |
+
+</div>
 
 XLM-R is better than the character model at every size tested. Mean paired differences range from +0.019 to +0.087, and the largest gap is at 500 examples. Every interval excludes zero (largest Holm-adjusted p = 0.0040). Under the pre-specified definition, the crossover is at or below the smallest size tested, 100 examples. In other words, we find no training budget in the tested range at which the character model is preferable. The advantage is not monotone. It peaks between 500 and 1,000 examples, then shrinks to about two points of macro F1 from 5,000 examples onward, where the character model continues to improve steadily.
 
@@ -136,40 +146,40 @@ Fine-tuning is unstable at small sizes. Individual XLM-R runs collapsed to near-
 
 In the main design, model selection at every size uses the full validation set of 3,342 items. This gives small-budget runs far more labeled selection data than a practitioner would have. We therefore repeated sizes 100 to 1,000 with selection on a stratified validation subsample of max(30, n/7) items. This analysis was added after the main results were inspected and should be read as post hoc.
 
-| Comparison | Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
-|---|---|---|---|---|---|---|---|---|
-| XLM-R base - Char n-gram LR | 100 | 5 | +0.064 | +0.057 | +0.071 | 0.0005 | 5 | 0.0020 |
-| XLM-R base - Char n-gram LR | 250 | 5 | +0.024 | +0.016 | +0.031 | 0.0005 | 4 | 0.0020 |
-| XLM-R base - Char n-gram LR | 500 | 5 | +0.081 | +0.073 | +0.090 | 0.0005 | 5 | 0.0020 |
-| XLM-R base - Char n-gram LR | 1000 | 5 | +0.069 | +0.059 | +0.078 | 0.0005 | 5 | 0.0020 |
+| Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
+|---|---|---|---|---|---|---|---|
+| 100 | 5 | +0.064 | +0.057 | +0.071 | 0.0005 | 5 | 0.0020 |
+| 250 | 5 | +0.024 | +0.016 | +0.031 | 0.0005 | 4 | 0.0020 |
+| 500 | 5 | +0.081 | +0.073 | +0.090 | 0.0005 | 5 | 0.0020 |
+| 1,000 | 5 | +0.069 | +0.059 | +0.078 | 0.0005 | 5 | 0.0020 |
 
 XLM-R's advantage persists under this restriction, with differences of +0.024 to +0.081. The main conclusion therefore does not depend on unrealistically large validation sets.
 
 ### 6.3 NepBERTa
 
-| Comparison | Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
-|---|---|---|---|---|---|---|---|---|
-| NepBERTa - Char n-gram LR | 100 | 5 | +0.051 | +0.044 | +0.059 | 0.0005 | 5 | 0.0040 |
-| NepBERTa - Char n-gram LR | 250 | 5 | +0.060 | +0.052 | +0.068 | 0.0005 | 5 | 0.0040 |
-| NepBERTa - Char n-gram LR | 500 | 5 | +0.065 | +0.055 | +0.074 | 0.0005 | 5 | 0.0040 |
-| NepBERTa - Char n-gram LR | 1000 | 5 | +0.050 | +0.040 | +0.058 | 0.0005 | 5 | 0.0040 |
-| NepBERTa - Char n-gram LR | 2500 | 5 | +0.039 | +0.029 | +0.048 | 0.0005 | 5 | 0.0040 |
-| NepBERTa - Char n-gram LR | 5000 | 3 | +0.026 | +0.016 | +0.035 | 0.0005 | 3 | 0.0040 |
-| NepBERTa - Char n-gram LR | 10000 | 3 | +0.016 | +0.006 | +0.026 | 0.0030 | 3 | 0.0040 |
-| NepBERTa - Char n-gram LR | 23385 | 3 | +0.023 | +0.011 | +0.034 | 0.0010 | 3 | 0.0040 |
+| Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
+|---|---|---|---|---|---|---|---|
+| 100 | 5 | +0.051 | +0.044 | +0.059 | 0.0005 | 5 | 0.0040 |
+| 250 | 5 | +0.060 | +0.052 | +0.068 | 0.0005 | 5 | 0.0040 |
+| 500 | 5 | +0.065 | +0.055 | +0.074 | 0.0005 | 5 | 0.0040 |
+| 1,000 | 5 | +0.050 | +0.040 | +0.058 | 0.0005 | 5 | 0.0040 |
+| 2,500 | 5 | +0.039 | +0.029 | +0.048 | 0.0005 | 5 | 0.0040 |
+| 5,000 | 3 | +0.026 | +0.016 | +0.035 | 0.0005 | 3 | 0.0040 |
+| 10,000 | 3 | +0.016 | +0.006 | +0.026 | 0.0030 | 3 | 0.0040 |
+| 23,385 | 3 | +0.023 | +0.011 | +0.034 | 0.0010 | 3 | 0.0040 |
 
 NepBERTa outperforms the character model at every size, with mean paired differences from +0.016 to +0.065, and every interval excludes zero. The direct paired comparison with XLM-R is given below.
 
-| Comparison | Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
-|---|---|---|---|---|---|---|---|---|
-| NepBERTa - XLM-R base | 100 | 5 | -0.021 | -0.028 | -0.014 | 0.0005 | 0 | 0.0040 |
-| NepBERTa - XLM-R base | 250 | 5 | +0.039 | +0.032 | +0.046 | 0.0005 | 1 | 0.0040 |
-| NepBERTa - XLM-R base | 500 | 5 | -0.023 | -0.030 | -0.015 | 0.0005 | 0 | 0.0040 |
-| NepBERTa - XLM-R base | 1000 | 5 | -0.024 | -0.032 | -0.017 | 0.0005 | 1 | 0.0040 |
-| NepBERTa - XLM-R base | 2500 | 5 | -0.015 | -0.023 | -0.006 | 0.0010 | 0 | 0.0040 |
-| NepBERTa - XLM-R base | 5000 | 3 | +0.002 | -0.008 | +0.011 | 0.7416 | 2 | 1.0000 |
-| NepBERTa - XLM-R base | 10000 | 3 | -0.003 | -0.012 | +0.006 | 0.5592 | 2 | 1.0000 |
-| NepBERTa - XLM-R base | 23385 | 3 | +0.000 | -0.009 | +0.009 | 0.9945 | 2 | 1.0000 |
+| Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
+|---|---|---|---|---|---|---|---|
+| 100 | 5 | -0.021 | -0.028 | -0.014 | 0.0005 | 0 | 0.0040 |
+| 250 | 5 | +0.039 | +0.032 | +0.046 | 0.0005 | 1 | 0.0040 |
+| 500 | 5 | -0.023 | -0.030 | -0.015 | 0.0005 | 0 | 0.0040 |
+| 1,000 | 5 | -0.024 | -0.032 | -0.017 | 0.0005 | 1 | 0.0040 |
+| 2,500 | 5 | -0.015 | -0.023 | -0.006 | 0.0010 | 0 | 0.0040 |
+| 5,000 | 3 | +0.002 | -0.008 | +0.011 | 0.7416 | 2 | 1.0000 |
+| 10,000 | 3 | -0.003 | -0.012 | +0.006 | 0.5592 | 2 | 1.0000 |
+| 23,385 | 3 | +0.000 | -0.009 | +0.009 | 0.9945 | 2 | 1.0000 |
 
 XLM-R is better than NepBERTa at 100, 500, 1,000 and 2,500 examples, by about 1.5 to 2.4 points of macro F1. From 5,000 examples upward, the intervals include zero. At 250 examples the mean favours NepBERTa, but this reflects the single collapsed XLM-R run: XLM-R is better in four of the five repeats. NepBERTa showed no collapsed runs. In this study, a model pretrained only on Nepali news did not learn more efficiently from labeled Nepali tweets than a multilingual model. One possible contributor is NepBERTa's tokenizer, which removes Devanagari dependent vowel signs. We did not test this explanation.
 
@@ -181,7 +191,7 @@ With the same n-gram settings (C and class weight re-selected on each split's ow
 
 We compare the full-size XLM-R and character-model predictions (repeat 0). Both models are wrong on 1,093 test items. On 866 of these (79%), they predict the same wrong label. XLM-R alone is wrong on 536 items and the character model alone on 871. Such strong agreement on errors between two very different model families suggests that a substantial part of the residual error lies in the items themselves. It may come from ambiguous tweets or from label noise, and no annotator-agreement statistic is available to separate the two.
 
-Of XLM-R's 1,629 errors, 680 (42%) are outright polarity reversals between positive and negative, and 628 are neutral tweets predicted as polar. Performance falls with tweet length for both models: macro F1 is 0.755 (XLM-R) and 0.721 (character) on tweets of 1-8 words, and 0.595 and 0.581 on tweets of 28 or more words. Longer tweets in this corpus are often multi-clause news items in which the sentiment target is unclear.
+Of XLM-R's 1,629 errors, 680 (42%) are outright polarity reversals between positive and negative, and 628 are neutral tweets predicted as polar. Performance falls with tweet length for both models: macro F1 is 0.755 (XLM-R) and 0.721 (character) on tweets of 1 to 8 words, and 0.595 and 0.581 on tweets of 28 or more words. Longer tweets in this corpus are often multi-clause news items in which the sentiment target is unclear.
 
 This error analysis is quantitative only. We did not manually code error categories.
 

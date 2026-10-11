@@ -1,10 +1,10 @@
 | Comparison | Train size | Repeats | Mean diff | CI low | CI high | p | Repeats first better | p (Holm) |
 |---|---|---|---|---|---|---|---|---|
-| XLM-R base - Char n-gram LR | 100 | 5 | +0.073 | +0.065 | +0.080 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 250 | 5 | +0.021 | +0.013 | +0.029 | 0.0005 | 4 | 0.0040 |
-| XLM-R base - Char n-gram LR | 500 | 5 | +0.087 | +0.078 | +0.096 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 1000 | 5 | +0.074 | +0.064 | +0.083 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 2500 | 5 | +0.053 | +0.044 | +0.063 | 0.0005 | 5 | 0.0040 |
-| XLM-R base - Char n-gram LR | 5000 | 3 | +0.024 | +0.013 | +0.035 | 0.0005 | 3 | 0.0040 |
-| XLM-R base - Char n-gram LR | 10000 | 3 | +0.019 | +0.008 | +0.030 | 0.0025 | 3 | 0.0040 |
-| XLM-R base - Char n-gram LR | 23385 | 3 | +0.023 | +0.010 | +0.034 | 0.0015 | 3 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 100 | 5 | +0.073 | +0.065 | +0.080 | 0.0005 | 5 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 250 | 5 | +0.021 | +0.013 | +0.029 | 0.0005 | 4 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 500 | 5 | +0.087 | +0.078 | +0.096 | 0.0005 | 5 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 1,000 | 5 | +0.074 | +0.064 | +0.083 | 0.0005 | 5 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 2,500 | 5 | +0.053 | +0.044 | +0.063 | 0.0005 | 5 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 5,000 | 3 | +0.024 | +0.013 | +0.035 | 0.0005 | 3 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 10,000 | 3 | +0.019 | +0.008 | +0.030 | 0.0025 | 3 | 0.0040 |
+| XLM-R minus Character n-gram logistic regression | 23,385 | 3 | +0.023 | +0.010 | +0.034 | 0.0015 | 3 | 0.0040 |

@@ -20,19 +20,21 @@ Test macro F1 on the grouped held-out test set (6,684 tweets). Full training set
 | Model | Macro F1 | 95% CI |
 |---|---|---|
 | Majority class | 0.206 | 0.203 to 0.210 |
-| Char n-gram TF-IDF + LR | 0.657 | 0.644 to 0.669 |
-| XLM-R base | 0.676 | 0.663 to 0.688 |
+| Character n-gram logistic regression | 0.657 | 0.644 to 0.669 |
+| XLM-R | 0.676 | 0.663 to 0.688 |
 | NepBERTa | 0.684 | 0.672 to 0.696 |
 
 Learning curve (mean over repeats):
 
 | Training examples | 100 | 500 | 1,000 | 2,500 | 10,000 | 23,385 |
 |---|---|---|---|---|---|---|
-| Char n-gram LR | 0.448 | 0.505 | 0.538 | 0.580 | 0.635 | 0.657 |
-| XLM-R base | 0.521 | 0.592 | 0.612 | 0.633 | 0.654 | 0.679 |
+| Character n-gram logistic regression | 0.448 | 0.505 | 0.538 | 0.580 | 0.635 | 0.657 |
+| XLM-R | 0.521 | 0.592 | 0.612 | 0.633 | 0.654 | 0.679 |
 | NepBERTa | 0.500 | 0.570 | 0.588 | 0.619 | 0.651 | 0.679 |
 
-![Learning curves](outputs/figures/learning_curve.png)
+![Test macro F1 by training set size for the character n-gram model, XLM-R and NepBERTa](outputs/figures/learning_curve.png)
+
+Lines join the median over repeats; faint points are individual runs; the dotted line is the majority class baseline.
 
 Main findings:
 

@@ -73,21 +73,31 @@ On the full training set (repeat 0), XLM-R reaches macro F1 {full_xlmr} ({full_x
 
 {full_nepberta_paragraph}
 
+<div class="keep" markdown="1">
+
 ## 6 Learning Curve Analysis
 
-![Learning curves](../outputs/figures/learning_curve.png)
+<figure>
+<img src="../outputs/figures/learning_curve.png" alt="Learning curves">
+<figcaption>Figure 1. Test macro F1 by training set size on the fixed test set. Lines join the median over repeats (5 repeats up to 2,500 examples, 3 above); faint points are individual runs. The dotted line is the majority class baseline.</figcaption>
+</figure>
 
-<p class="caption">Figure 1. Test macro F1 against training size (log scale). Lines are medians over repeats; dots are individual runs. The dotted line is the majority-class baseline.</p>
+</div>
 
 {table_learning_curve}
 
-![Paired differences](../outputs/figures/difference_by_size.png)
+<figure>
+<img src="../outputs/figures/difference_by_size.png" alt="Paired differences">
+<figcaption>Figure 2. Mean paired difference in test macro F1 between each transformer and the character n-gram logistic regression trained on the same subsamples. Error bars are 95% intervals from a bootstrap over test items. The dashed series with open markers uses a validation set scaled to the training size (Section 6.2) and is shifted slightly to the right for legibility.</figcaption>
+</figure>
 
-<p class="caption">Figure 2. Mean paired macro F1 difference (transformer minus character model) with 95% test-bootstrap intervals. Dashed series use a validation set scaled to the training size (Section 6.2).</p>
+<div class="keep" markdown="1">
 
 ### 6.1 XLM-R versus the character model
 
 {table_paired_xlmr}
+
+</div>
 
 XLM-R is better than the character model at every size tested. Mean paired differences range from {xlmr_diff_min} to {xlmr_diff_max}, and the largest gap is at {xlmr_diff_max_n} examples. Every interval excludes zero (largest Holm-adjusted p = {xlmr_max_pholm}). Under the pre-specified definition, the crossover is at or below the smallest size tested, {xlmr_cross} examples. In other words, we find no training budget in the tested range at which the character model is preferable. The advantage is not monotone. It peaks between 500 and 1,000 examples, then shrinks to about two points of macro F1 from 5,000 examples onward, where the character model continues to improve steadily.
 
@@ -115,7 +125,7 @@ With the same n-gram settings (C and class weight re-selected on each split's ow
 
 We compare the full-size XLM-R and character-model predictions (repeat 0). Both models are wrong on {err_both_wrong} test items. On {err_both_wrong_same_label} of these ({err_same_pct}%), they predict the same wrong label. XLM-R alone is wrong on {err_model_only_wrong} items and the character model alone on {err_baseline_only_wrong}. Such strong agreement on errors between two very different model families suggests that a substantial part of the residual error lies in the items themselves. It may come from ambiguous tweets or from label noise, and no annotator-agreement statistic is available to separate the two.
 
-Of XLM-R's {err_total} errors, {err_polarity} ({err_polarity_pct}%) are outright polarity reversals between positive and negative, and {err_neutral_out} are neutral tweets predicted as polar. Performance falls with tweet length for both models: macro F1 is {len_short_model} (XLM-R) and {len_short_base} (character) on tweets of 1-8 words, and {len_long_model} and {len_long_base} on tweets of 28 or more words. Longer tweets in this corpus are often multi-clause news items in which the sentiment target is unclear.
+Of XLM-R's {err_total} errors, {err_polarity} ({err_polarity_pct}%) are outright polarity reversals between positive and negative, and {err_neutral_out} are neutral tweets predicted as polar. Performance falls with tweet length for both models: macro F1 is {len_short_model} (XLM-R) and {len_short_base} (character) on tweets of 1 to 8 words, and {len_long_model} and {len_long_base} on tweets of 28 or more words. Longer tweets in this corpus are often multi-clause news items in which the sentiment target is unclear.
 
 This error analysis is quantitative only. We did not manually code error categories.
 
